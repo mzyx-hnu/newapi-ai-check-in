@@ -1000,7 +1000,14 @@ class CheckIn:
                     if not check_in_result.get("success"):
                         return False, {"error": check_in_result.get("error", "Check-in failed")}
             else:
-                print(f"ℹ️ {self.account_name}: Check-in completed automatically (triggered by user info request)")
+                if self.provider_config.needs_manual_topup():
+                    print(f"ℹ️ {self.account_name}: No check_in_path configured, check-in will be handled via topup (CDK)")
+                else:
+                    print(
+                        f"⚠️ {self.account_name}: No check_in_path configured and no CDK topup configured. "
+                        f"Check-in was NOT performed. Please add \"check_in_path\": \"/api/user/checkin\" to your provider config."
+                    )
+                    return False, {"error": "No check_in_path configured, check-in was not performed"}
 
             # 如果需要手动 topup（配置了 topup_path 和 get_cdk），执行 topup
             if self.provider_config.needs_manual_topup():
@@ -1104,7 +1111,14 @@ class CheckIn:
                     if not check_in_result.get("success"):
                         return False, {"error": check_in_result.get("error", "Check-in failed")}
             else:
-                print(f"ℹ️ {self.account_name}: Check-in completed automatically (triggered by user info request)")
+                if self.provider_config.needs_manual_topup():
+                    print(f"ℹ️ {self.account_name}: No check_in_path configured, check-in will be handled via topup (CDK)")
+                else:
+                    print(
+                        f"⚠️ {self.account_name}: No check_in_path configured and no CDK topup configured. "
+                        f"Check-in was NOT performed. Please add \"check_in_path\": \"/api/user/checkin\" to your provider config."
+                    )
+                    return False, {"error": "No check_in_path configured, check-in was not performed"}
 
             # 如果需要手动 topup（配置了 topup_path 和 get_cdk），执行 topup
             if self.provider_config.needs_manual_topup():
@@ -1236,7 +1250,7 @@ class CheckIn:
                     updated_headers.update(oauth_browser_headers)
 
                 merged_cookies = {**bypass_cookies, **user_cookies}
-                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user, impersonate)
+                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user)
             elif success and "code" in result_data and "state" in result_data:
                 # 收到 OAuth code，通过 HTTP 调用回调接口获取 api_user
                 print(f"ℹ️ {self.account_name}: Received OAuth code, calling callback API")
@@ -1277,7 +1291,7 @@ class CheckIn:
                                     f"ℹ️ {self.account_name}: Extracted {len(user_cookies)} user cookies: {list(user_cookies.keys())}"
                                 )
                                 merged_cookies = {**bypass_cookies, **user_cookies}
-                                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user, impersonate)
+                                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user)
                             else:
                                 print(f"❌ {self.account_name}: No user ID in callback response")
                                 return False, {"error": "No user ID in OAuth callback response"}
@@ -1399,7 +1413,7 @@ class CheckIn:
                     updated_headers.update(oauth_browser_headers)
 
                 merged_cookies = {**bypass_cookies, **user_cookies}
-                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user, impersonate)
+                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user)
             elif success and "code" in result_data and "state" in result_data:
                 # 收到 OAuth code，通过 HTTP 调用回调接口获取 api_user
                 print(f"ℹ️ {self.account_name}: Received OAuth code, calling callback API")
@@ -1440,7 +1454,7 @@ class CheckIn:
                                     f"ℹ️ {self.account_name}: Extracted {len(user_cookies)} user cookies: {list(user_cookies.keys())}"
                                 )
                                 merged_cookies = {**bypass_cookies, **user_cookies}
-                                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user, impersonate)
+                                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user)
                             else:
                                 print(f"❌ {self.account_name}: No user ID in callback response")
                                 return False, {"error": "No user ID in OAuth callback response"}
@@ -1546,7 +1560,7 @@ class CheckIn:
             print(f"ℹ️ {self.account_name}: Extracted {len(user_cookies)} site login cookies: {list(user_cookies.keys())}")
 
             merged_cookies = {**bypass_cookies, **user_cookies}
-            return await self.check_in_with_cookies(merged_cookies, common_headers, api_user, impersonate)
+            return await self.check_in_with_cookies(merged_cookies, common_headers, api_user)
 
         except Exception as e:
             print(f"❌ {self.account_name}: Error occurred during site login process - {e}")
@@ -1819,8 +1833,7 @@ class CheckIn:
                     print_browser_headers(self.account_name, browser_headers)
                     updated_headers.update(browser_headers)
 
-                impersonate = get_curl_cffi_impersonate(updated_headers.get("User-Agent", ""))
-                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user, impersonate)
+                return await self.check_in_with_cookies(merged_cookies, updated_headers, api_user)
 
             except Exception as e:
                 print(f"❌ {self.account_name}: Error occurred during site browser login process - {e}")
