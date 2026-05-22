@@ -838,7 +838,33 @@ class AppConfig:
             ),
         }
 
-        # 尝试从环境变量加载自定义 providers
+        # 1. 从 PROVIDERS.json 文件加载（优先级低）
+        providers_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "PROVIDERS.json")
+        if os.path.isfile(providers_file):
+            try:
+                with open(providers_file, "r", encoding="utf-8") as f:
+                    file_data = json.load(f)
+
+                if isinstance(file_data, dict):
+                    file_count = 0
+                    for name, provider_data in file_data.items():
+                        if name in providers:
+                            continue
+                        try:
+                            providers[name] = ProviderConfig.from_dict(name, provider_data, is_customize=True)
+                            file_count += 1
+                        except Exception as e:
+                            print(f'⚠️ Failed to parse provider "{name}" from PROVIDERS.json: {e}, skipping')
+                    if file_count:
+                        print(f"ℹ️ Loaded {file_count} custom provider(s) from PROVIDERS.json")
+                else:
+                    print("⚠️ PROVIDERS.json must be a JSON object, ignoring")
+            except json.JSONDecodeError as e:
+                print(f"⚠️ Failed to parse PROVIDERS.json: {e}, skipping")
+            except Exception as e:
+                print(f"⚠️ Error loading PROVIDERS.json: {e}, skipping")
+
+        # 2. 从环境变量加载（优先级高，会覆盖文件和硬编码配置）
         providers_str = os.getenv(providers_env)
 
         if providers_str:
@@ -849,7 +875,6 @@ class AppConfig:
                     print(f"⚠️ {providers_env} must be a JSON object, ignoring custom providers")
                     return providers
 
-                # 解析自定义 providers,会覆盖默认配置
                 for name, provider_data in providers_data.items():
                     try:
                         providers[name] = ProviderConfig.from_dict(name, provider_data, is_customize=True)
