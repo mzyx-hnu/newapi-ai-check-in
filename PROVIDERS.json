@@ -17,8 +17,7 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   },
   "yyds_215_im": {
     "origin": "https://yyds.215.im",
@@ -38,8 +37,7 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   },
   "freeapi_dgbmc_top": {
     "origin": "https://freeapi.dgbmc.top",
@@ -59,8 +57,7 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   },
   "zuodachen_zdc_mom": {
     "origin": "https://zuodachen.zdc.mom",
@@ -80,8 +77,7 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   },
   "callxyq_xyz": {
     "origin": "https://callxyq.xyz",
@@ -101,8 +97,7 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   },
   "sorai_me": {
     "origin": "https://newapi.sorai.me",
@@ -122,8 +117,7 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   },
   "muyuan_do": {
     "origin": "https://muyuan.do",
@@ -143,8 +137,7 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   },
   "925214_xyz": {
     "origin": "https://api.925214.xyz",
@@ -164,8 +157,7 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   },
   "aiapi": {
     "origin": "https://aiapi1.cc.cd",
@@ -185,8 +177,7 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   },
   "可萌中转站": {
     "origin": "https://api456.me",
@@ -206,7 +197,6 @@
     "linuxdo_auth_path": "/api/oauth/linuxdo",
     "linuxdo_auth_redirect_path": "/oauth/**",
     "aliyun_captcha": false,
-    "bypass_method": null,
-    "auto_add": true
+    "bypass_method": null
   }
 }
